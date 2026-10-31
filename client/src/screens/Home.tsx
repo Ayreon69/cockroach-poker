@@ -1,6 +1,6 @@
 // Accueil : la planche de titre, trois spécimens, pseudo + médaillon, ouvrir / rejoindre une table, entraînement, règles.
 import { motion } from 'framer-motion';
-import { BookOpen, Bot, House, LogIn, Plus } from 'lucide-react';
+import { BookOpen, Bot, House, MessageSquare, LogIn, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { AVATARS } from '../../../shared/protocol';
 import { AVATAR_LABELS, CardBack, CardFace, Medallion } from '../components/Beasts';
@@ -40,9 +40,14 @@ export function Home() {
 
   return (
     <Cabinet className="home">
-      <a className="all-games" href="https://akhis-games.onrender.com">
-        <House size={16} aria-hidden /> Tous les jeux
-      </a>
+      <div className="home-links">
+        <a className="all-games" href="https://akhis-games.onrender.com">
+          <House size={16} aria-hidden /> Tous les jeux
+        </a>
+        <a className="all-games" href="https://akhis-games.onrender.com/feedback.html?jeu=cockroach">
+          <MessageSquare size={16} aria-hidden /> Feedback
+        </a>
+      </div>
       <Scuttler />
       <header className="home-hero">
         <p className="home-eyebrow">Cabinet de curiosités · planches I à VIII</p>
