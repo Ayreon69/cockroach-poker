@@ -510,6 +510,22 @@ describe('table', () => {
     expect(room.round!.claimerId).toBe(a.id);
   });
 
+  it('quand le pilote joue pour un présent, il ne lui laisse jamais un coup à moitié fait', () => {
+    for (let g = 0; g < 40; g++) {
+      const { room } = table(4);
+      room.settings.think = 30;
+      const a = actor(room);
+      const b = other(room, [a.id]);
+      giveCard(room, 'rat', b.id, 'crapaud');
+      room.round!.turnEndsAt = Date.now() + 30_000;
+      room.commit();
+      vi.advanceTimersByTime(31_000);
+      const r = room.round!;
+      // Soit il a répondu, soit il a regardé puis refilé : jamais bloqué en train de regarder.
+      expect(r.phase === 'reveal' || (r.phase === 'answer' && r.actorId !== b.id)).toBe(true);
+    }
+  });
+
   it('sans limite de temps, un joueur présent n’est jamais bousculé', () => {
     const { room } = table(3);
     room.commit();

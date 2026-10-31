@@ -1,0 +1,11 @@
+{
+  "name": "Cockroach Poker",
+  "short_name": "Cockroach",
+  "description": "Glisse une bestiole, annonce n'importe quoi, et regarde-les douter.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1a16",
+  "theme_color": "#0f1a16",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

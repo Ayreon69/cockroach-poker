@@ -578,8 +578,14 @@ export class Room {
     let err: string | undefined;
     if (move.type === 'give') err = this.give(p.id, move.card, move.to, move.claim);
     else if (move.type === 'pass') err = this.pass(p.id, move.to, move.claim);
-    else if (move.type === 'peek') err = this.peek(p.id);
-    else err = this.answer(p.id, move.truth);
+    else if (move.type === 'peek') {
+      err = this.peek(p.id);
+      // Un humain remplacé par le pilote : le pilote va au bout du coup au lieu de lui rendre la main à moitié.
+      if (!err && !p.isBot) {
+        const next = botTurn(this.botView(r, p));
+        if (next.type === 'pass') err = this.pass(p.id, next.to, next.claim);
+      }
+    } else err = this.answer(p.id, move.truth);
     if (!err) return;
     // Filet de sécurité : la partie ne doit jamais se bloquer sur un bot.
     console.error(`[room ${this.code}] coup refusé (${move.type}) : ${err}`);
