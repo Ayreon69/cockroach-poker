@@ -624,16 +624,22 @@ button {
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 4px;
-  min-height: 31px;
+  min-height: calc(var(--pw, 22px) * 1.4);
 }
 .piles-sm {
   --step: 7px;
 }
+.piles-xs {
+  --pw: 22px;
+}
 .pile {
   position: relative;
   flex: none;
-  width: 22px;
-  height: calc(31px + (var(--n) - 1) * var(--step));
+  width: var(--pw);
+  height: calc(var(--pw) * 1.4 + (var(--n) - 1) * var(--step));
+}
+.piles-xs .pile-card {
+  --w: var(--pw);
 }
 .piles-sm .pile {
   width: 38px;
@@ -1582,6 +1588,9 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
+.peek-btn {
+  grid-column: 1 / -1;
+}
 .must-answer {
   text-align: center;
   font-family: var(--serif);
@@ -1609,12 +1618,19 @@ button {
 .react-btn {
   color: var(--paper-2);
 }
+.reactions-back {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  background: rgba(4, 8, 6, 0.35);
+}
 .reactions {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 8px);
-  z-index: 20;
-  width: min(330px, calc(100vw - 24px));
+  position: fixed;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  translate: -50% 0;
+  z-index: 50;
+  width: min(360px, calc(100vw - 24px));
   padding: 10px;
   border-radius: 12px;
   background: var(--paper);
@@ -1661,6 +1677,17 @@ button {
   pointer-events: none;
   white-space: nowrap;
   animation: bubble 3s ease-out forwards;
+}
+/* Dans les zones qui défilent, une bulle qui dépasse serait rognée : elle se pose à l'intérieur de sa vitrine. */
+.vitrine .bubble,
+.me-head .bubble {
+  top: 50%;
+  left: auto;
+  right: 8px;
+  translate: 0 -50%;
+}
+.me-head .bubble {
+  right: 48px;
 }
 .bubble.is-text {
   font-size: 0.86rem;
@@ -2204,7 +2231,41 @@ button {
     min-height: 100dvh;
   }
   .stage {
-    min-height: 220px;
+    min-height: 190px;
+  }
+  .answer-row.has-peek {
+    grid-template-columns: 1fr 1fr 1.2fr;
+  }
+  .peek-btn {
+    grid-column: auto;
+    min-height: 54px;
+  }
+  .claim-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .vitrine .piles-xs {
+    --pw: 28px;
+    --step: 6px;
+  }
+  .card-sm {
+    --w: 58px;
+  }
+  .hand {
+    --step: 11px;
+    gap: 10px;
+  }
+  .hand-group {
+    width: 58px;
+    height: calc(81px + (var(--n) - 1) * var(--step));
+  }
+  .card-md {
+    --w: 100px;
+  }
+  .claim-bubble {
+    max-width: 280px;
+  }
+  .claim-words {
+    font-size: 1.45rem;
   }
   .dock {
     flex: none;

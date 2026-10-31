@@ -239,12 +239,22 @@ function Hand({ hand, selectable, selected, onSelect }: { hand: Animal[]; select
   );
 }
 
+/** Le plateau de réactions : un volet posé au-dessus de tout, qu'un appui à côté ou Échap referme. */
 function ReactionTray({ onClose }: { onClose: () => void }) {
   const emit = (emoji: string) => {
     socket.emit('emote', { emoji });
     onClose();
   };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
   return (
+    <>
+    <div className="reactions-back" onClick={onClose} aria-hidden />
     <div className="reactions" role="dialog" aria-label="Réactions">
       <div className="reaction-emojis">
         {EMOTES.map((e) => (
@@ -261,6 +271,7 @@ function ReactionTray({ onClose }: { onClose: () => void }) {
         ))}
       </div>
     </div>
+    </>
   );
 }
 
@@ -480,21 +491,20 @@ export function Table({ view }: { view: RoomView }) {
 
           {answering && r.claim && (
             <div className="actions">
-              <div className="answer-row">
+              <div className={cls('answer-row', r.canPeek && 'has-peek')}>
                 <Button variant="true" className="btn-lg" icon={<ThumbsUp size={20} />} disabled={busy} onClick={() => void act('game:answer', { truth: true })}>
                   C'est vrai
                 </Button>
                 <Button variant="false" className="btn-lg" icon={<ThumbsDown size={20} />} disabled={busy} onClick={() => void act('game:answer', { truth: false })}>
                   C'est faux
                 </Button>
+                {r.canPeek && (
+                  <Button variant="peek" className="btn-wide peek-btn" icon={<Eye size={18} />} disabled={busy} onClick={() => void act('game:peek')}>
+                    Regarder et passer
+                  </Button>
+                )}
               </div>
-              {r.canPeek ? (
-                <Button variant="peek" className="btn-wide" icon={<Eye size={18} />} disabled={busy} onClick={() => void act('game:peek')}>
-                  Regarder et passer
-                </Button>
-              ) : (
-                <p className="must-answer">{playing.length === 2 ? 'À deux, on ne repasse pas les cartes : réponds.' : 'Tout le monde l’a déjà vue : tu dois répondre.'}</p>
-              )}
+              {!r.canPeek && <p className="must-answer">{playing.length === 2 ? 'À deux, on ne repasse pas les cartes : réponds.' : 'Tout le monde l’a déjà vue : tu dois répondre.'}</p>}
             </div>
           )}
         </div>
