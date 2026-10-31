@@ -2,7 +2,7 @@
 
 **Glisse une bestiole, annonce n'importe quoi, et regarde-les douter.**
 
-👉 **Jouer : adresse à venir** (la première ouverture peut prendre jusqu'à une minute, le temps que le serveur gratuit se réveille)
+👉 **Jouer : https://cockroach-poker-kksi.onrender.com** (la première ouverture peut prendre jusqu'à une minute, le temps que le serveur gratuit se réveille)
 
 Jeu multijoueur en ligne de bluff, à jouer entre amis depuis un navigateur, sur téléphone ou ordinateur, sans compte ni installation.
 D'après *Cockroach Poker* (*Kakerlakenpoker*, *Le Poker des Cafards*), de Jacques Zeimet, édité par Drei Magier Spiele (projet de fans, non officiel, avec ses propres illustrations).
